@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>セッション復帰 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="header">
+    <span class="header-title">セッション復帰</span>
+  </div>
+  
+  <div class="container">
+    <div class="content" style="text-align: center; padding-top: 60px;">
+      <h2 style="margin-bottom: var(--spacing-xl);">前回のセッションが見つかりました</h2>
+      
+      <div class="card" style="max-width: 400px; margin: var(--spacing-xl) auto;">
+        <div class="card-body">
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-m);">
+            <span class="text-muted">テーブル:</span>
+            <strong>A-1</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-m);">
+            <span class="text-muted">来店人数:</span>
+            <strong>4人</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span class="text-muted">開始時刻:</span>
+            <strong>12:30</strong>
+          </div>
+        </div>
+      </div>
+      
+      <p style="margin: var(--spacing-xl) 0; font-size: 18px;">
+        このセッションに戻りますか？
+      </p>
+      
+      <button class="btn btn-primary btn-block mb-2" onclick="window.location.href='04-menu-list.html'">
+        はい
+      </button>
+      
+      <button class="btn btn-outline btn-block" onclick="window.location.href='01-qr-scan.html'">
+        いいえ（新規セッション）
+      </button>
+    </div>
+  </div>
+</body>
+</html>

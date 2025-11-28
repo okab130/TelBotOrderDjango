@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>メニュー管理 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    body {
+      background-color: var(--background);
+    }
+    
+    .dashboard-header {
+      background-color: var(--surface);
+      padding: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .filter-section {
+      background-color: var(--surface);
+      padding: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .menu-table {
+      background-color: var(--surface);
+      margin: var(--spacing-m);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th {
+      background-color: var(--primary);
+      color: white;
+      padding: var(--spacing-m);
+      text-align: left;
+      font-weight: 600;
+    }
+    
+    td {
+      padding: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    tr:hover {
+      background-color: var(--background);
+    }
+    
+    .thumbnail {
+      width: 60px;
+      height: 45px;
+      object-fit: cover;
+      border-radius: 4px;
+      background-color: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+      background-color: var(--disabled);
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    
+    .toggle-switch.active {
+      background-color: var(--success);
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+    
+    .toggle-switch.active .toggle-slider {
+      transform: translateX(26px);
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">メニュー管理</h1>
+    <div style="display: flex; gap: var(--spacing-m);">
+      <button class="btn btn-primary">+ メニュー項目を追加</button>
+      <button class="btn btn-outline">一括売り切れ設定</button>
+    </div>
+  </div>
+  
+  <div class="filter-section">
+    <div style="display: flex; gap: var(--spacing-m); align-items: center;">
+      <div>
+        <strong>フィルター:</strong>
+      </div>
+      <select style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;">
+        <option>すべてのカテゴリ</option>
+        <option>前菜</option>
+        <option>メイン</option>
+        <option>飲み物</option>
+        <option>デザート</option>
+      </select>
+      <select style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;">
+        <option>すべて</option>
+        <option>提供可能のみ</option>
+        <option>売り切れのみ</option>
+      </select>
+      <select style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;">
+        <option>有効のみ</option>
+        <option>無効のみ</option>
+      </select>
+      <input type="text" placeholder="🔍 検索" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; flex: 1;">
+    </div>
+  </div>
+  
+  <div class="menu-table">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 50px;">
+            <input type="checkbox">
+          </th>
+          <th style="width: 80px;">画像</th>
+          <th>商品名</th>
+          <th>カテゴリ</th>
+          <th style="width: 100px;">価格</th>
+          <th style="width: 80px;">提供可能</th>
+          <th style="width: 100px;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>
+            <div class="thumbnail" style="background: linear-gradient(135deg, #90EE90 0%, #228B22 100%);">🥗</div>
+          </td>
+          <td style="font-weight: 600;">シーザーサラダ</td>
+          <td>前菜</td>
+          <td style="font-weight: 600;">¥850</td>
+          <td>
+            <div class="toggle-switch active" onclick="toggleAvailable(this)">
+              <div class="toggle-slider"></div>
+            </div>
+          </td>
+          <td>
+            <button class="btn" style="padding: 6px 12px; font-size: 14px;" onclick="editMenu()">編集</button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>
+            <div class="thumbnail" style="background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%);">🍝</div>
+          </td>
+          <td style="font-weight: 600;">トマトパスタ</td>
+          <td>メイン</td>
+          <td style="font-weight: 600;">¥1,200</td>
+          <td>
+            <div class="toggle-switch" onclick="toggleAvailable(this)">
+              <div class="toggle-slider"></div>
+            </div>
+          </td>
+          <td>
+            <button class="btn" style="padding: 6px 12px; font-size: 14px;" onclick="editMenu()">編集</button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>
+            <div class="thumbnail" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);">🍺</div>
+          </td>
+          <td style="font-weight: 600;">ビール</td>
+          <td>飲み物</td>
+          <td style="font-weight: 600;">¥600</td>
+          <td>
+            <div class="toggle-switch active" onclick="toggleAvailable(this)">
+              <div class="toggle-slider"></div>
+            </div>
+          </td>
+          <td>
+            <button class="btn" style="padding: 6px 12px; font-size: 14px;" onclick="editMenu()">編集</button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>
+            <div class="thumbnail" style="background: linear-gradient(135deg, #98FB98 0%, #3CB371 100%);">🫛</div>
+          </td>
+          <td style="font-weight: 600;">枝豆</td>
+          <td>前菜</td>
+          <td style="font-weight: 600;">¥400</td>
+          <td>
+            <div class="toggle-switch active" onclick="toggleAvailable(this)">
+              <div class="toggle-slider"></div>
+            </div>
+          </td>
+          <td>
+            <button class="btn" style="padding: 6px 12px; font-size: 14px;" onclick="editMenu()">編集</button>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="checkbox"></td>
+          <td>
+            <div class="thumbnail" style="background: linear-gradient(135deg, #F4A460 0%, #D2691E 100%);">🍗</div>
+          </td>
+          <td style="font-weight: 600;">唐揚げ</td>
+          <td>前菜</td>
+          <td style="font-weight: 600;">¥800</td>
+          <td>
+            <div class="toggle-switch active" onclick="toggleAvailable(this)">
+              <div class="toggle-slider"></div>
+            </div>
+          </td>
+          <td>
+            <button class="btn" style="padding: 6px 12px; font-size: 14px;" onclick="editMenu()">編集</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div style="padding: var(--spacing-m); display: flex; justify-content: space-between; align-items: center;">
+    <div>全5件中 1-5件を表示</div>
+    <div style="display: flex; gap: var(--spacing-s);">
+      <button class="btn btn-outline">保存</button>
+      <button class="btn btn-primary">保存して編集を続ける</button>
+    </div>
+  </div>
+  
+  <script>
+    function toggleAvailable(element) {
+      element.classList.toggle('active');
+    }
+    
+    function editMenu() {
+      window.location.href = '04-menu-edit.html';
+    }
+  </script>
+</body>
+</html>

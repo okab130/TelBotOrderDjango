@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>調理ダッシュボード - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    body {
+      background-color: var(--background);
+    }
+    
+    .dashboard-header {
+      background-color: var(--surface);
+      padding: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .toggle-group {
+      display: flex;
+      gap: var(--spacing-m);
+      align-items: center;
+    }
+    
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-s);
+    }
+    
+    .order-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: var(--spacing-m);
+      padding: var(--spacing-m);
+    }
+    
+    .order-card {
+      background-color: var(--surface);
+      border-radius: 8px;
+      padding: var(--spacing-m);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .order-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    .order-card.warning {
+      background-color: #FFF9C4;
+    }
+    
+    .order-card.urgent {
+      background-color: #FFCDD2;
+    }
+    
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-m);
+      padding-bottom: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .order-info {
+      flex: 1;
+    }
+    
+    .table-name {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .order-number {
+      color: var(--text-secondary);
+    }
+    
+    .elapsed-time {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    
+    .order-items {
+      margin-bottom: var(--spacing-m);
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-s) 0;
+    }
+    
+    .item-note {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-left: var(--spacing-m);
+    }
+    
+    .search-box {
+      padding: var(--spacing-s) var(--spacing-m);
+      font-size: 14px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      width: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">調理ダッシュボード</h1>
+    <div class="toggle-group">
+      <div class="toggle">
+        <span>自動更新:</span>
+        <input type="checkbox" checked>
+        <span>ON</span>
+      </div>
+      <div class="toggle">
+        <span>🔔 音声通知:</span>
+        <input type="checkbox" checked>
+        <span>ON</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab">
+      未調理
+      <span class="badge" style="position: static; margin-left: 4px;">5</span>
+    </button>
+    <button class="tab active">
+      調理中
+      <span class="badge" style="position: static; margin-left: 4px;">3</span>
+    </button>
+    <button class="tab">
+      完了
+      <span class="badge" style="position: static; margin-left: 4px;">2</span>
+    </button>
+    <button class="tab">全て</button>
+    <div style="flex: 1;"></div>
+    <input type="text" class="search-box" placeholder="🔍 検索">
+  </div>
+  
+  <div class="order-grid">
+    <!-- 注文カード1 - 通常 -->
+    <div class="order-card" onclick="openOrderDetail()">
+      <div class="order-header">
+        <div class="order-info">
+          <div class="table-name">テーブル A-1</div>
+          <div class="order-number">注文 #1</div>
+        </div>
+        <div>
+          <span class="status-badge status-pending">未調理</span>
+          <div class="elapsed-time">10分前</div>
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <div class="order-item">
+          <div>
+            <div>シーザーサラダ x2</div>
+            <div class="item-note">備考: ドレッシング少なめ</div>
+          </div>
+          <button class="btn" style="padding: 6px 12px; font-size: 14px;">調理開始</button>
+        </div>
+        <div class="order-item">
+          <div>ビール x2</div>
+          <button class="btn" style="padding: 6px 12px; font-size: 14px;">調理開始</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 注文カード2 - 警告 -->
+    <div class="order-card warning">
+      <div class="order-header">
+        <div class="order-info">
+          <div class="table-name">テーブル B-3</div>
+          <div class="order-number">注文 #2</div>
+        </div>
+        <div>
+          <span class="status-badge status-cooking">調理中</span>
+          <div class="elapsed-time">15分前</div>
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <div class="order-item">
+          <div>唐揚げ x1</div>
+          <button class="btn btn-success" style="padding: 6px 12px; font-size: 14px;">完了</button>
+        </div>
+        <div class="order-item">
+          <div>枝豆 x1</div>
+          <button class="btn btn-success" style="padding: 6px 12px; font-size: 14px;">完了</button>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary btn-block">提供する</button>
+    </div>
+    
+    <!-- 注文カード3 - 緊急 -->
+    <div class="order-card urgent">
+      <div class="order-header">
+        <div class="order-info">
+          <div class="table-name">テーブル C-5</div>
+          <div class="order-number">注文 #1</div>
+        </div>
+        <div>
+          <span class="status-badge status-cooking">調理中</span>
+          <div class="elapsed-time">25分前 ⚠️</div>
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <div class="order-item">
+          <div>ステーキ x1</div>
+          <button class="btn btn-success" style="padding: 6px 12px; font-size: 14px;">完了</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 注文カード4 -->
+    <div class="order-card">
+      <div class="order-header">
+        <div class="order-info">
+          <div class="table-name">テーブル D-2</div>
+          <div class="order-number">注文 #3</div>
+        </div>
+        <div>
+          <span class="status-badge status-cooking">調理中</span>
+          <div class="elapsed-time">8分前</div>
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <div class="order-item">
+          <div>パスタ x2</div>
+          <button class="btn btn-success" style="padding: 6px 12px; font-size: 14px;">完了</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 注文詳細モーダル -->
+  <div id="orderDetailModal" class="modal-overlay" style="display: none;" onclick="closeOrderDetail()">
+    <div class="modal" style="width: 90%; max-width: 600px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span class="modal-title">注文詳細</span>
+        <button class="modal-close" onclick="closeOrderDetail()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-m);">
+            <div>
+              <label class="form-label">テーブル</label>
+              <div>A-1</div>
+            </div>
+            <div>
+              <label class="form-label">注文番号</label>
+              <div>#1</div>
+            </div>
+            <div>
+              <label class="form-label">注文者</label>
+              <div>@username</div>
+            </div>
+            <div>
+              <label class="form-label">注文時刻</label>
+              <div>2024-11-28 12:35</div>
+            </div>
+            <div>
+              <label class="form-label">経過時間</label>
+              <div>10分</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">注文内容</label>
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-m);">
+              <div>
+                <div style="font-weight: 600;">シーザーサラダ x2</div>
+                <div class="text-muted">備考: ドレッシング少なめ</div>
+              </div>
+              <div>
+                <div style="text-align: right; margin-bottom: var(--spacing-s);">¥1,700</div>
+                <select class="form-input" style="width: 120px; padding: 6px;">
+                  <option>未調理</option>
+                  <option>調理中</option>
+                  <option>完了</option>
+                  <option>提供済み</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div style="display: flex; justify-content: space-between;">
+              <div>
+                <div style="font-weight: 600;">ビール x2</div>
+              </div>
+              <div>
+                <div style="text-align: right; margin-bottom: var(--spacing-s);">¥1,200</div>
+                <select class="form-input" style="width: 120px; padding: 6px;">
+                  <option>未調理</option>
+                  <option>調理中</option>
+                  <option>完了</option>
+                  <option>提供済み</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="font-size: 18px; font-weight: 600; text-align: right; margin-bottom: var(--spacing-l);">
+          合計: ¥2,900
+        </div>
+        
+        <div class="modal-footer">
+          <button class="btn btn-error">注文キャンセル</button>
+          <button class="btn btn-outline" onclick="closeOrderDetail()">閉じる</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function openOrderDetail() {
+      document.getElementById('orderDetailModal').style.display = 'flex';
+    }
+    
+    function closeOrderDetail() {
+      document.getElementById('orderDetailModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

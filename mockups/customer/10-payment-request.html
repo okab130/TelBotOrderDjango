@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会計 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="header">
+    <button class="header-back" onclick="window.location.href='04-menu-list.html'">←</button>
+    <span class="header-title">会計</span>
+    <div style="width: 40px;"></div>
+  </div>
+  
+  <div class="container">
+    <div class="content">
+      <h2 style="margin-bottom: var(--spacing-l);">ご注文内容</h2>
+      
+      <!-- 注文1 -->
+      <div class="card">
+        <div style="font-weight: 600; margin-bottom: var(--spacing-m);">注文 #1</div>
+        <div style="margin-bottom: var(--spacing-s);">シーザーサラダ x2</div>
+        <div style="margin-bottom: var(--spacing-s);">ビール x2</div>
+        <div style="text-align: right; font-weight: 600;">¥2,900</div>
+      </div>
+      
+      <!-- 注文2 -->
+      <div class="card">
+        <div style="font-weight: 600; margin-bottom: var(--spacing-m);">注文 #2</div>
+        <div style="margin-bottom: var(--spacing-s);">枝豆 x1</div>
+        <div style="margin-bottom: var(--spacing-s);">唐揚げ x1</div>
+        <div style="text-align: right; font-weight: 600;">¥1,200</div>
+      </div>
+      
+      <!-- 合計 -->
+      <div class="card" style="background-color: var(--primary);">
+        <div style="color: white; text-align: center;">
+          <div style="font-size: 18px; margin-bottom: var(--spacing-s);">合計金額</div>
+          <div style="font-size: 36px; font-weight: 600;">¥4,100</div>
+        </div>
+      </div>
+      
+      <p class="text-center text-muted" style="margin: var(--spacing-l) 0;">
+        レジにてお支払いください
+      </p>
+      
+      <button class="btn btn-primary btn-block" onclick="window.location.href='11-payment-complete.html'">
+        会計を依頼する
+      </button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モバイルオーダーシステム</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            padding: 16px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .info-box {
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--tg-theme-hint-color, #999999);
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        
+        .menu-card {
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .menu-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            background: #ddd;
+        }
+        
+        .menu-info {
+            padding: 12px;
+        }
+        
+        .menu-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .menu-price {
+            color: var(--tg-theme-hint-color, #999999);
+            font-size: 14px;
+        }
+        
+        .button {
+            width: 100%;
+            padding: 12px;
+            background: var(--tg-theme-button-color, #2196F3);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        
+        .button:active {
+            opacity: 0.8;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="loading">読み込み中...</div>
+    </div>
+
+    <script>
+        // Telegram WebApp初期化
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // URLパラメータ取得
+        const urlParams = new URLSearchParams(window.location.search);
+        const tableId = urlParams.get('table_id');
+        
+        // アプリ状態
+        let session = null;
+        let menuItems = [];
+        
+        // API Base URL
+        const API_BASE = window.location.origin + '/api';
+        
+        // 初期化
+        async function init() {
+            try {
+                if (tableId) {
+                    await startSession(tableId);
+                } else {
+                    showError('テーブルIDが指定されていません');
+                }
+            } catch (error) {
+                console.error('初期化エラー:', error);
+                showError('エラーが発生しました');
+            }
+        }
+        
+        // セッション開始
+        async function startSession(tableId) {
+            try {
+                // テーブル情報取得
+                const tableResponse = await fetch(`${API_BASE}/tables/${tableId}/`);
+                const table = await tableResponse.json();
+                
+                // 既存セッション確認
+                const sessionResponse = await fetch(
+                    `${API_BASE}/sessions/check_active/?table_id=${tableId}`
+                );
+                const sessionData = await sessionResponse.json();
+                
+                if (sessionData.has_active_session) {
+                    session = sessionData.session;
+                    showMenu(table);
+                } else {
+                    showPartySizeInput(table);
+                }
+            } catch (error) {
+                console.error('セッション開始エラー:', error);
+                showError('セッション開始に失敗しました');
+            }
+        }
+        
+        // 来店人数入力画面
+        function showPartySizeInput(table) {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <h1>テーブル: ${table.table_number}</h1>
+                <div class="info-box">
+                    <p style="margin-bottom: 16px;">来店人数を入力してください</p>
+                    <input type="number" id="partySize" 
+                           value="1" min="1" max="99" 
+                           style="width: 100%; padding: 12px; font-size: 18px; 
+                                  border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <button class="button" onclick="createSession(${table.id})">
+                    注文を開始する
+                </button>
+            `;
+        }
+        
+        // セッション作成
+        async function createSession(tableId) {
+            const partySize = document.getElementById('partySize').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/sessions/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        table: tableId,
+                        party_size: parseInt(partySize),
+                        telegram_chat_id: tg.initDataUnsafe?.user?.id?.toString() || null,
+                    })
+                });
+                
+                session = await response.json();
+                
+                // テーブル情報取得
+                const tableResponse = await fetch(`${API_BASE}/tables/${tableId}/`);
+                const table = await tableResponse.json();
+                
+                showMenu(table);
+            } catch (error) {
+                console.error('セッション作成エラー:', error);
+                showError('セッション作成に失敗しました');
+            }
+        }
+        
+        // メニュー表示
+        async function showMenu(table) {
+            try {
+                // メニュー取得
+                const response = await fetch(
+                    `${API_BASE}/menu-items/?store_id=${table.store}&available_only=true`
+                );
+                const data = await response.json();
+                menuItems = data.results || data;
+                
+                const app = document.getElementById('app');
+                app.innerHTML = `
+                    <h1>テーブル: ${table.table_number}</h1>
+                    <div class="info-box">
+                        <div class="info-item">
+                            <span>来店人数</span>
+                            <span>${session.party_size}人</span>
+                        </div>
+                        <div class="info-item">
+                            <span>セッション</span>
+                            <span>${session.session_code}</span>
+                        </div>
+                    </div>
+                    
+                    <h2 style="margin: 24px 0 16px;">メニュー</h2>
+                    <div class="menu-grid">
+                        ${menuItems.map(item => `
+                            <div class="menu-card" onclick="showItemDetail(${item.id})">
+                                <div class="menu-image" style="background-image: url(${item.image_thumbnail_url || ''})"></div>
+                                <div class="menu-info">
+                                    <div class="menu-name">${item.name}</div>
+                                    <div class="menu-price">¥${parseInt(item.price).toLocaleString()}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('メニュー取得エラー:', error);
+                showError('メニュー取得に失敗しました');
+            }
+        }
+        
+        // エラー表示
+        function showError(message) {
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="info-box" style="text-align: center; padding: 40px;">
+                    <p style="color: red; font-size: 18px;">${message}</p>
+                </div>
+            `;
+        }
+        
+        // 初期化実行
+        init();
+    </script>
+</body>
+</html>

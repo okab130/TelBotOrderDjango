@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注文履歴 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="header">
+    <button class="header-back" onclick="window.location.href='04-menu-list.html'">←</button>
+    <span class="header-title">注文履歴</span>
+    <div style="width: 40px;"></div>
+  </div>
+  
+  <div class="container">
+    <div class="content">
+      <!-- セッション情報 -->
+      <div class="card" style="background-color: var(--primary-light);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-s);">
+          <span>テーブル:</span>
+          <strong>A-1</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-s);">
+          <span>来店人数:</span>
+          <strong>4人</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span>開始時刻:</span>
+          <strong>12:30</strong>
+        </div>
+      </div>
+      
+      <!-- 注文1 -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-m);">
+          <div>
+            <span style="font-weight: 600; font-size: 18px;">注文 #1</span>
+            <span class="status-badge status-served" style="margin-left: var(--spacing-s);">提供済み</span>
+          </div>
+          <span class="text-muted">10分前</span>
+        </div>
+        
+        <div style="border-top: 1px solid var(--border); padding-top: var(--spacing-m); margin-bottom: var(--spacing-m);">
+          <div style="margin-bottom: var(--spacing-s);">シーザーサラダ x2</div>
+          <div>ビール x2</div>
+        </div>
+        
+        <div style="text-align: right; font-weight: 600;">合計: ¥2,900</div>
+      </div>
+      
+      <!-- 注文2 -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-m);">
+          <div>
+            <span style="font-weight: 600; font-size: 18px;">注文 #2</span>
+            <span class="status-badge status-cooking" style="margin-left: var(--spacing-s);">調理中</span>
+          </div>
+          <span class="text-muted">5分前</span>
+        </div>
+        
+        <div style="border-top: 1px solid var(--border); padding-top: var(--spacing-m); margin-bottom: var(--spacing-m);">
+          <div style="margin-bottom: var(--spacing-s);">枝豆 x1</div>
+          <div>唐揚げ x1</div>
+        </div>
+        
+        <div style="text-align: right; font-weight: 600;">合計: ¥1,200</div>
+      </div>
+      
+      <!-- 総合計 -->
+      <div class="card" style="background-color: var(--secondary-light);">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 20px; font-weight: 600;">総合計</span>
+          <span style="font-size: 28px; font-weight: 600; color: var(--secondary-dark);">¥4,100</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

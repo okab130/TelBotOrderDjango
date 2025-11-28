@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>メニュー一覧 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="header">
+    <span class="header-title">テーブル A-1 👥4</span>
+    <div class="header-icons">
+      <button class="icon-button" onclick="window.location.href='06-cart.html'">
+        🛒
+        <span class="badge">2</span>
+      </button>
+      <button class="icon-button" onclick="toggleMenu()">☰</button>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active">全て</button>
+    <button class="tab">前菜</button>
+    <button class="tab">メイン</button>
+    <button class="tab">飲み物</button>
+    <button class="tab">デザート</button>
+  </div>
+  
+  <div class="container">
+    <div class="content">
+      <!-- メニュー項目 -->
+      <div class="menu-item" onclick="openProductModal('シーザーサラダ', '850', '新鮮なロメインレタスとクリーミーなシーザードレッシング、パルメザンチーズをトッピング')">
+        <div class="menu-item-image" style="background: linear-gradient(135deg, #90EE90 0%, #228B22 100%); display: flex; align-items: center; justify-content: center; font-size: 48px;">🥗</div>
+        <div class="menu-item-content">
+          <div class="menu-item-name">シーザーサラダ</div>
+          <div class="menu-item-description">新鮮なロメインレタスとパルメザンチーズ</div>
+          <div class="menu-item-price">¥850</div>
+        </div>
+      </div>
+      
+      <div class="menu-item unavailable">
+        <div class="menu-item-image" style="background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%); display: flex; align-items: center; justify-content: center; font-size: 48px;">🍝</div>
+        <div class="menu-item-content">
+          <div class="menu-item-name">
+            トマトパスタ
+            <span class="unavailable-badge">売切</span>
+          </div>
+          <div class="menu-item-description">完熟トマトのフレッシュソース</div>
+          <div class="menu-item-price">¥1,200</div>
+        </div>
+      </div>
+      
+      <div class="menu-item" onclick="openProductModal('ビール', '600', 'キンキンに冷えた生ビール')">
+        <div class="menu-item-image" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); display: flex; align-items: center; justify-content: center; font-size: 48px;">🍺</div>
+        <div class="menu-item-content">
+          <div class="menu-item-name">ビール</div>
+          <div class="menu-item-description">キンキンに冷えた生ビール</div>
+          <div class="menu-item-price">¥600</div>
+        </div>
+      </div>
+      
+      <div class="menu-item" onclick="openProductModal('枝豆', '400', '塩茹で枝豆')">
+        <div class="menu-item-image" style="background: linear-gradient(135deg, #98FB98 0%, #3CB371 100%); display: flex; align-items: center; justify-content: center; font-size: 48px;">🫛</div>
+        <div class="menu-item-content">
+          <div class="menu-item-name">枝豆</div>
+          <div class="menu-item-description">塩茹で枝豆</div>
+          <div class="menu-item-price">¥400</div>
+        </div>
+      </div>
+      
+      <div class="menu-item" onclick="openProductModal('唐揚げ', '800', 'ジューシーな鶏の唐揚げ')">
+        <div class="menu-item-image" style="background: linear-gradient(135deg, #F4A460 0%, #D2691E 100%); display: flex; align-items: center; justify-content: center; font-size: 48px;">🍗</div>
+        <div class="menu-item-content">
+          <div class="menu-item-name">唐揚げ</div>
+          <div class="menu-item-description">ジューシーな鶏の唐揚げ</div>
+          <div class="menu-item-price">¥800</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <button class="floating-button" onclick="window.location.href='12-staff-call.html'">
+    🛎️
+  </button>
+  
+  <!-- メニューモーダル -->
+  <div id="menuModal" class="modal-overlay" style="display: none;" onclick="toggleMenu()">
+    <div class="modal" style="position: fixed; top: 60px; right: 16px; left: auto; max-width: 200px;" onclick="event.stopPropagation()">
+      <div class="list-item" onclick="window.location.href='09-order-history.html'">
+        <span class="list-item-icon">📋</span>
+        <span>注文履歴</span>
+      </div>
+      <div class="list-item" onclick="window.location.href='10-payment-request.html'">
+        <span class="list-item-icon">💳</span>
+        <span>会計</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 商品詳細モーダル -->
+  <div id="productModal" class="modal-overlay" style="display: none;" onclick="closeProductModal()">
+    <div class="modal" style="width: 90%; max-width: 400px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span class="modal-title" id="modalProductName">商品名</span>
+        <button class="modal-close" onclick="closeProductModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #90EE90 0%, #228B22 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 80px; margin-bottom: var(--spacing-m);">🥗</div>
+        
+        <div style="font-size: 24px; font-weight: 600; color: var(--primary); margin-bottom: var(--spacing-m);" id="modalPrice">¥850</div>
+        
+        <p style="color: var(--text-secondary); margin-bottom: var(--spacing-l);" id="modalDescription">商品説明</p>
+        
+        <div class="form-group">
+          <label class="form-label">数量</label>
+          <div class="quantity-selector">
+            <button class="quantity-btn" onclick="decreaseQuantity()">−</button>
+            <span class="quantity-value" id="quantity">1</span>
+            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+          </div>
+          <p class="text-muted text-center mt-1">最大10個まで</p>
+        </div>
+        
+        <button class="btn btn-primary btn-block" onclick="addToCart()">
+          カートに追加 (<span id="totalPrice">¥850</span>)
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let quantity = 1;
+    let unitPrice = 850;
+    
+    function toggleMenu() {
+      const modal = document.getElementById('menuModal');
+      modal.style.display = modal.style.display === 'none' ? 'flex' : 'none';
+    }
+    
+    function openProductModal(name, price, description) {
+      document.getElementById('modalProductName').textContent = name;
+      document.getElementById('modalPrice').textContent = '¥' + price;
+      document.getElementById('modalDescription').textContent = description;
+      unitPrice = parseInt(price);
+      quantity = 1;
+      document.getElementById('quantity').textContent = quantity;
+      updateTotalPrice();
+      document.getElementById('productModal').style.display = 'flex';
+    }
+    
+    function closeProductModal() {
+      document.getElementById('productModal').style.display = 'none';
+    }
+    
+    function decreaseQuantity() {
+      if (quantity > 1) {
+        quantity--;
+        document.getElementById('quantity').textContent = quantity;
+        updateTotalPrice();
+      }
+    }
+    
+    function increaseQuantity() {
+      if (quantity < 10) {
+        quantity++;
+        document.getElementById('quantity').textContent = quantity;
+        updateTotalPrice();
+      }
+    }
+    
+    function updateTotalPrice() {
+      const total = unitPrice * quantity;
+      document.getElementById('totalPrice').textContent = '¥' + total.toLocaleString();
+    }
+    
+    function addToCart() {
+      alert('カートに追加しました');
+      closeProductModal();
+    }
+  </script>
+</body>
+</html>

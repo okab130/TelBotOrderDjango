@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会計管理 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    body {
+      background-color: var(--background);
+    }
+    
+    .dashboard-header {
+      background-color: var(--surface);
+      padding: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .payment-list {
+      padding: var(--spacing-m);
+    }
+    
+    .payment-card {
+      background-color: var(--surface);
+      border-radius: 8px;
+      padding: var(--spacing-m);
+      margin-bottom: var(--spacing-m);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .payment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-m);
+      padding-bottom: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .search-filter {
+      display: flex;
+      gap: var(--spacing-m);
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">会計管理</h1>
+    <div class="search-filter">
+      <input type="text" placeholder="🔍 検索" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;">
+      <input type="date" style="padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px;">
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active">
+      会計待ち
+      <span class="badge" style="position: static; margin-left: 4px;">3</span>
+    </button>
+    <button class="tab">完了</button>
+  </div>
+  
+  <div class="payment-list">
+    <!-- 会計カード1 -->
+    <div class="payment-card">
+      <div class="payment-header">
+        <div>
+          <div style="font-size: 18px; font-weight: 600;">テーブル: A-1</div>
+          <div class="text-muted">セッション: TBL1-20241128-001</div>
+        </div>
+        <div style="text-align: right;">
+          <div class="text-muted">依頼時刻: 13:15</div>
+          <div style="color: var(--secondary-dark); font-weight: 600;">経過: 5分</div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: var(--spacing-m);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-s);">
+          <span>注文 #1</span>
+          <span>¥2,900</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-s);">
+          <span>注文 #2</span>
+          <span>¥1,500</span>
+        </div>
+      </div>
+      
+      <div style="border-top: 2px solid var(--border); padding-top: var(--spacing-m); margin-bottom: var(--spacing-m);">
+        <div style="display: flex; justify-content: space-between; font-size: 24px; font-weight: 600;">
+          <span>合計金額</span>
+          <span style="color: var(--primary);">¥4,400</span>
+        </div>
+      </div>
+      
+      <div style="display: flex; gap: var(--spacing-s);">
+        <button class="btn btn-outline" onclick="printReceipt()">📄 レシート印刷</button>
+        <button class="btn btn-primary" onclick="openPaymentModal()">💳 会計処理</button>
+      </div>
+    </div>
+    
+    <!-- 会計カード2 -->
+    <div class="payment-card">
+      <div class="payment-header">
+        <div>
+          <div style="font-size: 18px; font-weight: 600;">テーブル: B-3</div>
+          <div class="text-muted">セッション: TBL3-20241128-002</div>
+        </div>
+        <div style="text-align: right;">
+          <div class="text-muted">依頼時刻: 13:20</div>
+          <div style="color: var(--secondary-dark); font-weight: 600;">経過: 3分</div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: var(--spacing-m);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-s);">
+          <span>注文 #1</span>
+          <span>¥3,200</span>
+        </div>
+      </div>
+      
+      <div style="border-top: 2px solid var(--border); padding-top: var(--spacing-m); margin-bottom: var(--spacing-m);">
+        <div style="display: flex; justify-content: space-between; font-size: 24px; font-weight: 600;">
+          <span>合計金額</span>
+          <span style="color: var(--primary);">¥3,200</span>
+        </div>
+      </div>
+      
+      <div style="display: flex; gap: var(--spacing-s);">
+        <button class="btn btn-outline" onclick="printReceipt()">📄 レシート印刷</button>
+        <button class="btn btn-primary" onclick="openPaymentModal()">💳 会計処理</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 会計処理モーダル -->
+  <div id="paymentModal" class="modal-overlay" style="display: none;" onclick="closePaymentModal()">
+    <div class="modal" style="width: 90%; max-width: 500px;" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <span class="modal-title">会計処理</span>
+        <button class="modal-close" onclick="closePaymentModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-m);">
+            <span style="font-size: 16px;">テーブル:</span>
+            <strong style="font-size: 16px;">A-1</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-l);">
+            <span style="font-size: 20px; font-weight: 600;">合計金額:</span>
+            <strong style="font-size: 28px; color: var(--primary);">¥4,400</strong>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">支払い方法を選択してください</label>
+          <div style="display: flex; flex-direction: column; gap: var(--spacing-s);">
+            <label style="display: flex; align-items: center; padding: var(--spacing-m); border: 2px solid var(--border); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="payment_method" value="cash" checked style="margin-right: var(--spacing-m);">
+              <span style="font-size: 16px;">💵 現金</span>
+            </label>
+            <label style="display: flex; align-items: center; padding: var(--spacing-m); border: 2px solid var(--border); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="payment_method" value="credit_card" style="margin-right: var(--spacing-m);">
+              <span style="font-size: 16px;">💳 クレジットカード</span>
+            </label>
+            <label style="display: flex; align-items: center; padding: var(--spacing-m); border: 2px solid var(--border); border-radius: 8px; cursor: pointer;">
+              <input type="radio" name="payment_method" value="electronic" style="margin-right: var(--spacing-m);">
+              <span style="font-size: 16px;">📱 電子マネー</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button class="btn btn-outline" onclick="closePaymentModal()">キャンセル</button>
+          <button class="btn btn-success" onclick="completePayment()">決済完了</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function printReceipt() {
+      alert('レシートを印刷します');
+    }
+    
+    function openPaymentModal() {
+      document.getElementById('paymentModal').style.display = 'flex';
+    }
+    
+    function closePaymentModal() {
+      document.getElementById('paymentModal').style.display = 'none';
+    }
+    
+    function completePayment() {
+      alert('会計が完了しました');
+      closePaymentModal();
+    }
+  </script>
+</body>
+</html>

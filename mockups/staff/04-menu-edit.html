@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>メニュー項目編集 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    body {
+      background-color: var(--background);
+    }
+    
+    .dashboard-header {
+      background-color: var(--surface);
+      padding: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .edit-form {
+      max-width: 800px;
+      margin: var(--spacing-l) auto;
+      background-color: var(--surface);
+      padding: var(--spacing-l);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-m);
+      padding-bottom: var(--spacing-s);
+      border-bottom: 2px solid var(--border);
+    }
+    
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: var(--spacing-xl);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .upload-area:hover {
+      border-color: var(--primary);
+      background-color: var(--primary-light);
+    }
+    
+    .image-preview {
+      max-width: 300px;
+      margin: 0 auto var(--spacing-m);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .image-preview img {
+      width: 100%;
+      height: auto;
+    }
+    
+    .checkbox-group {
+      display: flex;
+      gap: var(--spacing-l);
+    }
+    
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-s);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">メニュー項目の変更: シーザーサラダ</h1>
+  </div>
+  
+  <div class="edit-form">
+    <!-- 基本情報 -->
+    <div class="section-title">基本情報</div>
+    
+    <div class="form-group">
+      <label class="form-label">商品名 *</label>
+      <input type="text" class="form-input" value="シーザーサラダ" required>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">カテゴリ</label>
+      <select class="form-input">
+        <option>選択してください</option>
+        <option selected>前菜</option>
+        <option>メイン</option>
+        <option>飲み物</option>
+        <option>デザート</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">価格 *</label>
+      <input type="number" class="form-input" value="850.00" step="0.01" required>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">説明</label>
+      <textarea class="form-textarea">新鮮なロメインレタスとクリーミーなシーザードレッシング、パルメザンチーズをトッピング</textarea>
+    </div>
+    
+    <!-- 画像 -->
+    <div class="section-title" style="margin-top: var(--spacing-xl);">画像</div>
+    
+    <div class="form-group">
+      <label class="form-label">現在の画像</label>
+      <div class="image-preview">
+        <div style="width: 100%; height: 200px; background: linear-gradient(135deg, #90EE90 0%, #228B22 100%); display: flex; align-items: center; justify-content: center; font-size: 80px;">🥗</div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">新しい画像をアップロード</label>
+      <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+        <div style="font-size: 48px; margin-bottom: var(--spacing-m);">📁</div>
+        <div style="font-weight: 600; margin-bottom: var(--spacing-s);">ファイルをドラッグ&ドロップ</div>
+        <div style="margin-bottom: var(--spacing-s);">または</div>
+        <button class="btn btn-outline" type="button">ファイルを選択</button>
+        <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" style="display: none;">
+      </div>
+      <small class="text-muted">対応形式: JPEG, PNG, WebP (最大2MB)</small>
+    </div>
+    
+    <!-- 設定 -->
+    <div class="section-title" style="margin-top: var(--spacing-xl);">設定</div>
+    
+    <div class="form-group">
+      <label class="form-label">1注文あたりの最大数量</label>
+      <input type="number" class="form-input" value="10" min="1" max="99">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">表示順序</label>
+      <input type="number" class="form-input" value="0">
+      <small class="text-muted">数値が小さいほど上位に表示されます</small>
+    </div>
+    
+    <div class="form-group">
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" checked>
+          <span>提供可能</span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" checked>
+          <span>有効</span>
+        </label>
+      </div>
+    </div>
+    
+    <!-- アクションボタン -->
+    <div style="display: flex; gap: var(--spacing-s); justify-content: flex-end; margin-top: var(--spacing-xl); padding-top: var(--spacing-l); border-top: 1px solid var(--border);">
+      <button class="btn btn-error" onclick="if(confirm('このメニュー項目を削除しますか？')) alert('削除しました')">削除</button>
+      <button class="btn btn-outline" onclick="window.location.href='03-menu-management.html'">キャンセル</button>
+      <button class="btn btn-secondary">保存</button>
+      <button class="btn btn-primary">保存して編集を続ける</button>
+    </div>
+  </div>
+</body>
+</html>

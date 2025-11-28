@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>店員を呼ぶ - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <!-- 理由選択画面 -->
+  <div id="reasonScreen">
+    <div class="header">
+      <span class="header-title">店員を呼ぶ</span>
+      <button class="header-back" style="position: absolute; right: 16px;" onclick="window.location.href='04-menu-list.html'">✕</button>
+    </div>
+    
+    <div class="container">
+      <div class="content">
+        <h3 style="margin-bottom: var(--spacing-l);">呼び出しの理由を選択してください</h3>
+        
+        <div class="list-item" onclick="selectReason('water', 'お水が欲しい')">
+          <span class="list-item-icon">💧</span>
+          <span class="list-item-content">お水が欲しい</span>
+          <span class="list-item-action">›</span>
+        </div>
+        
+        <div class="list-item" onclick="selectReason('payment', '会計したい')">
+          <span class="list-item-icon">💳</span>
+          <span class="list-item-content">会計したい</span>
+          <span class="list-item-action">›</span>
+        </div>
+        
+        <div class="list-item" onclick="selectReason('question', '質問がある')">
+          <span class="list-item-icon">❓</span>
+          <span class="list-item-content">質問がある</span>
+          <span class="list-item-action">›</span>
+        </div>
+        
+        <div class="list-item" onclick="selectReason('complaint', '苦情・問題')">
+          <span class="list-item-icon">⚠️</span>
+          <span class="list-item-content">苦情・問題</span>
+          <span class="list-item-action">›</span>
+        </div>
+        
+        <div class="list-item" onclick="selectReason('other', 'その他')">
+          <span class="list-item-icon">📝</span>
+          <span class="list-item-content">その他</span>
+          <span class="list-item-action">›</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- メッセージ入力画面 -->
+  <div id="messageScreen" style="display: none;">
+    <div class="header">
+      <button class="header-back" onclick="backToReason()">←</button>
+      <span class="header-title">店員を呼ぶ</span>
+      <button class="header-back" style="position: absolute; right: 16px;" onclick="window.location.href='04-menu-list.html'">✕</button>
+    </div>
+    
+    <div class="container">
+      <div class="content">
+        <div class="form-group">
+          <label class="form-label">理由</label>
+          <div class="form-input" style="background-color: var(--background);" id="selectedReason"></div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">追加メッセージ（任意）</label>
+          <textarea class="form-textarea" id="message" placeholder="詳細をご記入ください" maxlength="100"></textarea>
+          <small class="text-muted">最大100文字</small>
+        </div>
+        
+        <button class="btn btn-primary btn-block mb-2" onclick="window.location.href='13-staff-call-complete.html'">
+          呼び出す
+        </button>
+        
+        <button class="btn btn-outline btn-block" onclick="backToReason()">
+          キャンセル
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function selectReason(code, text) {
+      document.getElementById('selectedReason').textContent = text;
+      document.getElementById('reasonScreen').style.display = 'none';
+      document.getElementById('messageScreen').style.display = 'block';
+    }
+    
+    function backToReason() {
+      document.getElementById('reasonScreen').style.display = 'block';
+      document.getElementById('messageScreen').style.display = 'none';
+      document.getElementById('message').value = '';
+    }
+  </script>
+</body>
+</html>

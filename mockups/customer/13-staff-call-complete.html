@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>呼び出し完了 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script>
+    // 3秒後に自動的にメニュー画面に戻る
+    setTimeout(function() {
+      window.location.href = '04-menu-list.html';
+    }, 3000);
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="content" style="text-align: center; padding-top: 100px;">
+      <div style="font-size: 80px; margin-bottom: var(--spacing-l);">🔔</div>
+      
+      <h2 style="margin-bottom: var(--spacing-l);">店員を呼び出しました</h2>
+      
+      <p class="text-muted" style="margin-bottom: var(--spacing-xxl);">
+        しばらくお待ちください
+      </p>
+      
+      <button class="btn btn-outline btn-block" onclick="window.location.href='04-menu-list.html'">
+        閉じる
+      </button>
+      
+      <p class="text-muted mt-2" style="font-size: 14px;">
+        ※3秒後に自動的に戻ります
+      </p>
+    </div>
+  </div>
+</body>
+</html>

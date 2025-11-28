@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QRスキャン - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .welcome-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: var(--spacing-l);
+      text-align: center;
+    }
+    
+    .app-logo {
+      font-size: 48px;
+      margin-bottom: var(--spacing-l);
+    }
+    
+    .app-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-l);
+      color: var(--primary);
+    }
+    
+    .qr-illustration {
+      width: 200px;
+      height: 200px;
+      background-color: var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      margin: var(--spacing-xl) 0;
+      color: var(--text-secondary);
+    }
+    
+    .instruction-text {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-xl);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-screen">
+    <div class="app-logo">🍽️</div>
+    <h1 class="app-title">モバイルオーダーシステム</h1>
+    
+    <div class="qr-illustration">📷</div>
+    
+    <p class="instruction-text">
+      テーブルのQRコードをスキャンして<br>
+      ご注文を開始してください
+    </p>
+    
+    <button class="btn btn-primary btn-block" style="max-width: 300px;" onclick="window.location.href='02-party-size.html'">
+      QRコードをスキャン
+    </button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>売上レポート - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    body {
+      background-color: var(--background);
+    }
+    
+    .dashboard-header {
+      background-color: var(--surface);
+      padding: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .report-container {
+      padding: var(--spacing-l);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .period-selector {
+      background-color: var(--surface);
+      padding: var(--spacing-m);
+      border-radius: 8px;
+      margin-bottom: var(--spacing-l);
+      display: flex;
+      gap: var(--spacing-m);
+      align-items: center;
+    }
+    
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--spacing-m);
+      margin-bottom: var(--spacing-l);
+    }
+    
+    .summary-card {
+      background-color: var(--surface);
+      padding: var(--spacing-l);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .summary-label {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin-bottom: var(--spacing-s);
+    }
+    
+    .summary-value {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    .chart-container {
+      background-color: var(--surface);
+      padding: var(--spacing-l);
+      border-radius: 8px;
+      margin-bottom: var(--spacing-l);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .chart-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: var(--spacing-m);
+    }
+    
+    .chart-placeholder {
+      width: 100%;
+      height: 300px;
+      background: linear-gradient(to top, var(--primary-light) 0%, transparent 100%);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+    }
+    
+    .ranking-table {
+      background-color: var(--surface);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .ranking-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .ranking-table th {
+      background-color: var(--primary);
+      color: white;
+      padding: var(--spacing-m);
+      text-align: left;
+    }
+    
+    .ranking-table td {
+      padding: var(--spacing-m);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .rank-badge {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      border-radius: 50%;
+      font-weight: 600;
+      color: white;
+    }
+    
+    .rank-1 { background-color: #FFD700; }
+    .rank-2 { background-color: #C0C0C0; }
+    .rank-3 { background-color: #CD7F32; }
+    .rank-other { background-color: var(--disabled); }
+  </style>
+</head>
+<body>
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">売上レポート</h1>
+  </div>
+  
+  <div class="report-container">
+    <!-- 期間選択 -->
+    <div class="period-selector">
+      <strong>期間:</strong>
+      <input type="date" value="2024-11-01" style="padding: 8px; border: 1px solid var(--border); border-radius: 4px;">
+      <span>〜</span>
+      <input type="date" value="2024-11-28" style="padding: 8px; border: 1px solid var(--border); border-radius: 4px;">
+      <button class="btn btn-primary">表示</button>
+      <div style="flex: 1;"></div>
+      <button class="btn btn-outline">📄 CSVダウンロード</button>
+      <button class="btn btn-outline">📊 PDFダウンロード</button>
+    </div>
+    
+    <!-- サマリーカード -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="summary-label">総売上</div>
+        <div class="summary-value">¥1,250,000</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">注文数</div>
+        <div class="summary-value">324<span style="font-size: 18px;">件</span></div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">平均単価</div>
+        <div class="summary-value">¥3,858</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">来店客数</div>
+        <div class="summary-value">856<span style="font-size: 18px;">人</span></div>
+      </div>
+    </div>
+    
+    <!-- 日次売上推移 -->
+    <div class="chart-container">
+      <div class="chart-title">日次売上推移</div>
+      <div class="chart-placeholder">
+        📈 グラフ領域<br>
+        <small style="font-size: 14px;">(実装時にChart.jsなどを使用)</small>
+      </div>
+    </div>
+    
+    <!-- 人気商品TOP10 -->
+    <div class="ranking-table">
+      <div style="padding: var(--spacing-m); background-color: var(--surface); border-bottom: 1px solid var(--border);">
+        <div class="chart-title" style="margin: 0;">人気商品 TOP10</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 80px;">順位</th>
+            <th>商品名</th>
+            <th style="width: 120px; text-align: right;">数量</th>
+            <th style="width: 150px; text-align: right;">売上</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="rank-badge rank-1">1</span></td>
+            <td style="font-weight: 600;">ビール</td>
+            <td style="text-align: right;">156</td>
+            <td style="text-align: right; font-weight: 600;">¥93,600</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-2">2</span></td>
+            <td style="font-weight: 600;">シーザーサラダ</td>
+            <td style="text-align: right;">124</td>
+            <td style="text-align: right; font-weight: 600;">¥105,400</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-3">3</span></td>
+            <td style="font-weight: 600;">唐揚げ</td>
+            <td style="text-align: right;">98</td>
+            <td style="text-align: right; font-weight: 600;">¥78,400</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-other">4</span></td>
+            <td style="font-weight: 600;">枝豆</td>
+            <td style="text-align: right;">87</td>
+            <td style="text-align: right; font-weight: 600;">¥34,800</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-other">5</span></td>
+            <td style="font-weight: 600;">トマトパスタ</td>
+            <td style="text-align: right;">76</td>
+            <td style="text-align: right; font-weight: 600;">¥91,200</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-other">6</span></td>
+            <td style="font-weight: 600;">ワイン</td>
+            <td style="text-align: right;">65</td>
+            <td style="text-align: right; font-weight: 600;">¥195,000</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-other">7</span></td>
+            <td style="font-weight: 600;">チーズケーキ</td>
+            <td style="text-align: right;">54</td>
+            <td style="text-align: right; font-weight: 600;">¥43,200</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-other">8</span></td>
+            <td style="font-weight: 600;">ハンバーグ</td>
+            <td style="text-align: right;">48</td>
+            <td style="text-align: right; font-weight: 600;">¥67,200</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-other">9</span></td>
+            <td style="font-weight: 600;">カクテル</td>
+            <td style="text-align: right;">42</td>
+            <td style="text-align: right; font-weight: 600;">¥33,600</td>
+          </tr>
+          <tr>
+            <td><span class="rank-badge rank-other">10</span></td>
+            <td style="font-weight: 600;">アイスクリーム</td>
+            <td style="text-align: right;">38</td>
+            <td style="text-align: right; font-weight: 600;">¥19,000</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

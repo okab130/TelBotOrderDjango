@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>来店人数入力 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="header">
+    <button class="header-back" onclick="window.location.href='01-qr-scan.html'">←</button>
+    <span class="header-title">テーブル: A-1</span>
+    <div style="width: 40px;"></div>
+  </div>
+  
+  <div class="container">
+    <div class="content" style="text-align: center; padding-top: 60px;">
+      <h2 style="margin-bottom: var(--spacing-xl);">ご来店人数を入力してください</h2>
+      
+      <div class="quantity-selector" style="margin: var(--spacing-xxl) 0;">
+        <button class="quantity-btn" onclick="decreaseParty()">−</button>
+        <span class="quantity-value" id="partySize">4</span>
+        <span style="font-size: 20px;">人</span>
+        <button class="quantity-btn" onclick="increaseParty()">+</button>
+      </div>
+      
+      <p class="text-muted" style="margin-bottom: var(--spacing-xxl);">※最大99人まで入力可能</p>
+      
+      <button class="btn btn-primary btn-block" onclick="window.location.href='04-menu-list.html'">
+        注文を開始する
+      </button>
+    </div>
+  </div>
+  
+  <script>
+    let partySize = 4;
+    
+    function decreaseParty() {
+      if (partySize > 1) {
+        partySize--;
+        document.getElementById('partySize').textContent = partySize;
+      }
+    }
+    
+    function increaseParty() {
+      if (partySize < 99) {
+        partySize++;
+        document.getElementById('partySize').textContent = partySize;
+      }
+    }
+  </script>
+</body>
+</html>

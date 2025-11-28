@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会計依頼完了 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="content" style="text-align: center; padding-top: 60px;">
+      <div class="info-icon">💳</div>
+      
+      <h2 style="margin-bottom: var(--spacing-xl);">会計を依頼しました</h2>
+      
+      <div class="card" style="margin-bottom: var(--spacing-l);">
+        <div style="width: 200px; height: 200px; margin: 0 auto var(--spacing-m); background-color: var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 64px;">
+          📱
+        </div>
+        
+        <div style="font-weight: 600; margin-bottom: var(--spacing-s);">レシート番号:</div>
+        <div style="font-size: 18px; color: var(--primary); margin-bottom: var(--spacing-m);">#TBL1-20241128-001</div>
+        
+        <div style="font-size: 24px; font-weight: 600; color: var(--secondary-dark);">合計金額: ¥4,100</div>
+      </div>
+      
+      <p class="text-muted" style="margin-bottom: var(--spacing-xl);">
+        このQRコードをレジでご提示ください
+      </p>
+      
+      <button class="btn btn-outline btn-block mb-2" onclick="if(confirm('会計依頼をキャンセルして追加注文しますか？')) window.location.href='04-menu-list.html'">
+        会計をキャンセル<br>
+        <small>（追加注文したい場合）</small>
+      </button>
+      
+      <p class="text-center" style="margin-top: var(--spacing-xl); font-size: 18px; font-weight: 500;">
+        ご利用ありがとうございました
+      </p>
+    </div>
+  </div>
+</body>
+</html>

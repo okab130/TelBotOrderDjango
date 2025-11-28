@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注文完了 - モバイルオーダーシステム</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="content" style="text-align: center; padding-top: 60px;">
+      <div class="success-icon">✓</div>
+      
+      <h2 style="margin-bottom: var(--spacing-l);">ご注文ありがとうございます</h2>
+      
+      <div class="card" style="margin-bottom: var(--spacing-l);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-s);">
+          <span class="text-muted">注文番号:</span>
+          <strong>#1</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span class="text-muted">注文時刻:</span>
+          <strong>12:35</strong>
+        </div>
+      </div>
+      
+      <div style="border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: var(--spacing-m) 0; margin-bottom: var(--spacing-l);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-s);">
+          <span>シーザーサラダ x2</span>
+          <span>¥1,700</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: var(--spacing-s);">
+          <span>ビール x2</span>
+          <span>¥1,200</span>
+        </div>
+      </div>
+      
+      <div style="font-size: 24px; font-weight: 600; margin-bottom: var(--spacing-xl);">
+        合計 ¥2,900
+      </div>
+      
+      <p class="text-muted" style="margin-bottom: var(--spacing-xl);">
+        調理が完了するまでしばらくお待ちください。
+      </p>
+      
+      <button class="btn btn-primary btn-block mb-2" onclick="window.location.href='04-menu-list.html'">
+        メニューに戻る
+      </button>
+      
+      <button class="btn btn-outline btn-block" onclick="window.location.href='09-order-history.html'">
+        注文履歴を見る
+      </button>
+    </div>
+  </div>
+</body>
+</html>
